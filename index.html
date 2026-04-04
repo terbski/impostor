@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impostor</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="header">
+    <h1><span>IMPOSTOR</span></h1>
+  </div>
+
+  <!-- SETUP -->
+  <section id="screen-setup" class="screen active">
+    <h2>Dodaj graczy</h2>
+    <div style="display:flex;gap:8px;">
+      <input type="text" id="input-player" placeholder="Imię gracza" maxlength="20" />
+      <button style="width:auto;padding:12px 20px;" onclick="addPlayer()">+</button>
+    </div>
+    <ul id="player-list"></ul>
+    <button onclick="handleStartGame()">Rozpocznij grę</button>
+  </section>
+
+  <!-- REVEAL -->
+  <section id="screen-reveal" class="screen">
+    <h2>Odkryj swoją rolę</h2>
+    <p style="text-align:center;color:var(--muted)">Każdy gracz dotyka swojej karty prywatnie</p>
+    <div id="reveal-cards"></div>
+    <button id="btn-start-discussion" onclick="handleStartDiscussion()">Wszyscy gotowi – zacznij dyskusję</button>
+  </section>
+
+  <!-- DISCUSSION -->
+  <section id="screen-discussion" class="screen">
+    <div class="info-box">
+      <h3 id="discussion-round"></h3>
+      <p id="discussion-category" style="font-size:1.1rem;font-weight:600;"></p>
+    </div>
+    <p style="color:var(--muted);text-align:center">Każdy podaje jedno skojarzenie w kolejności:</p>
+    <ul id="player-order"></ul>
+    <button onclick="handleStartVoting()">Przejdź do głosowania</button>
+  </section>
+
+  <!-- VOTING -->
+  <section id="screen-voting" class="screen">
+    <h2>Głosowanie</h2>
+    <p style="text-align:center;color:var(--muted)">Kto jest Impostorem?</p>
+    <div id="voting-buttons"></div>
+    <p id="voting-status" style="text-align:center;color:var(--muted);"></p>
+    <button id="btn-confirm-vote" onclick="handleVote()">Potwierdź głos</button>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="screen-results" class="screen">
+    <div id="result-winner"></div>
+    <p id="result-impostor"></p>
+    <p id="result-word"></p>
+    <div id="result-tally"></div>
+    <div id="result-scores"></div>
+    <button onclick="handleNextRound()">Następna runda</button>
+    <button class="secondary" onclick="handleNewGame()">Nowa gra</button>
+  </section>
+
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    // ===== SETUP =====
+    const playerNames = [];
+
+    function addPlayer() {
+      const input = document.getElementById("input-player");
+      const name = input.value.trim();
+      if (!name || playerNames.includes(name)) return;
+      playerNames.push(name);
+      input.value = "";
+      renderPlayerList();
+    }
+
+    document.getElementById("input-player").addEventListener("keydown", e => {
+      if (e.key === "Enter") addPlayer();
+    });
+
+    function renderPlayerList() {
+      const ul = document.getElementById("player-list");
+      ul.innerHTML = "";
+      playerNames.forEach((name, i) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${name}</span><button onclick="removePlayer(${i})">Usuń</button>`;
+        ul.appendChild(li);
+      });
+    }
+
+    function removePlayer(index) {
+      playerNames.splice(index, 1);
+      renderPlayerList();
+    }
+
+    function handleStartGame() {
+      try {
+        Game.startGame([...playerNames]);
+        UI.renderReveal(Game.getState().players);
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+
+    // ===== REVEAL =====
+    function handleStartDiscussion() {
+      UI.renderDiscussion();
+    }
+
+    // ===== DISCUSSION =====
+    function handleStartVoting() {
+      Game.startVoting();
+      UI.renderVoting();
+      setupVotingFlow();
+    }
+
+    // ===== VOTING =====
+    let currentVoterIndex = 0;
+    const votingOrder = [];
+
+    function setupVotingFlow() {
+      votingOrder.length = 0;
+      Game.getState().players.forEach(p => votingOrder.push(p.name));
+      currentVoterIndex = 0;
+      updateVotingPrompt();
+    }
+
+    function updateVotingPrompt() {
+      const status = document.getElementById("voting-status");
+      if (currentVoterIndex < votingOrder.length) {
+        status.textContent = `Głosuje: ${votingOrder[currentVoterIndex]}`;
+      }
+      document.querySelectorAll(".vote-btn").forEach(b => b.classList.remove("selected"));
+      delete document.getElementById("btn-confirm-vote").dataset.target;
+    }
+
+    function handleVote() {
+      const target = document.getElementById("btn-confirm-vote").dataset.target;
+      if (!target) { alert("Wybierz gracza!"); return; }
+      const voter = votingOrder[currentVoterIndex];
+      Game.castVote(voter, target);
+      currentVoterIndex++;
+      if (currentVoterIndex < votingOrder.length) {
+        updateVotingPrompt();
+      } else {
+        const result = Game.resolveVoting();
+        UI.renderResults(result);
+      }
+    }
+
+    // ===== RESULTS =====
+    function handleNextRound() {
+      const names = Game.getState().players.map(p => p.name);
+      Game.startGame(names);
+      UI.renderReveal(Game.getState().players);
+    }
+
+    function handleNewGame() {
+      Game.resetRound();
+      playerNames.length = 0;
+      UI.renderSetup();
+    }
+  </script>
+</body>
+</html>

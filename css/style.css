@@ -1,0 +1,142 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0d0f;
+  --surface: #1a1a1f;
+  --surface2: #252530;
+  --accent: #e63946;
+  --accent2: #457b9d;
+  --text: #f1f1f3;
+  --muted: #888899;
+  --radius: 12px;
+  --font: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== SCREENS ===== */
+.screen { display: none; width: 100%; max-width: 480px; padding: 24px 16px; }
+.screen.active { display: flex; flex-direction: column; gap: 16px; }
+
+h1 { font-size: 2rem; text-align: center; letter-spacing: -1px; }
+h2 { font-size: 1.4rem; text-align: center; color: var(--accent); }
+h3 { font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
+
+/* ===== BUTTONS ===== */
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s, transform .1s;
+  width: 100%;
+}
+button:hover { opacity: .9; }
+button:active { transform: scale(.98); }
+button.secondary { background: var(--surface2); color: var(--text); }
+button.vote-btn { background: var(--surface2); margin-bottom: 8px; }
+button.vote-btn.selected { background: var(--accent2); }
+
+/* ===== INPUTS ===== */
+input {
+  background: var(--surface);
+  border: 1px solid var(--surface2);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 12px 16px;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+  transition: border-color .2s;
+}
+input:focus { border-color: var(--accent2); }
+
+/* ===== PLAYER LIST (setup) ===== */
+#player-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+#player-list li {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#player-list li button { width: auto; padding: 6px 12px; font-size: .85rem; background: var(--surface2); }
+
+/* ===== REVEAL CARDS ===== */
+#reveal-cards { display: flex; flex-direction: column; gap: 12px; }
+
+.reveal-card {
+  height: 120px;
+  perspective: 800px;
+  cursor: pointer;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .5s ease;
+}
+.reveal-card.flipped .card-inner { transform: rotateY(180deg); }
+.card-front, .card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 16px;
+}
+.card-front { background: var(--surface2); }
+.card-front span { font-size: 1.3rem; font-weight: 700; }
+.card-front p { color: var(--muted); font-size: .85rem; }
+.card-back { background: var(--surface); transform: rotateY(180deg); }
+.impostor-label { color: var(--accent); font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; }
+.player-label { color: var(--accent2); font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; }
+
+/* ===== DISCUSSION ===== */
+.info-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+#player-order { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+#player-order li {
+  background: var(--surface2);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-weight: 500;
+}
+
+/* ===== RESULTS ===== */
+#result-winner { font-size: 2rem; font-weight: 800; text-align: center; color: var(--accent); }
+#result-impostor, #result-word { text-align: center; color: var(--muted); }
+#result-tally, #result-scores {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+#result-tally p, #result-scores p { padding: 4px 0; border-bottom: 1px solid var(--surface2); }
+
+/* ===== MISC ===== */
+#btn-start-discussion { display: none; }
+.header { padding: 24px 16px 0; text-align: center; }
+.header h1 span { color: var(--accent); }
