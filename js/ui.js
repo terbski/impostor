@@ -1,13 +1,22 @@
-// Minimal UI helpers – main logic lives in index.html's inline script
+// ============================================================
+// UI HELPERS – nawigacja ekranów i narzędzia współdzielone
+// ============================================================
+
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+  });
   document.getElementById(id).classList.add('active');
 }
 
-function roleLabel(role) {
-  return { impostor: 'Impostor', jester: 'Jester', player: 'Gracz' }[role] || role;
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
-function roleBadgeClass(role) {
-  return `role-${role}`;
+function roleLabelShort(role) {
+  return { impostor: 'Impostor', jester: 'Jester', player: 'Gracz', chaos: 'Impostor' }[role] || role;
 }
