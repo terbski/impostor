@@ -25,7 +25,7 @@
         <li>Każdy gracz po kolei sprawdza swoją kartę <em>prywatnie</em>.</li>
         <li>Gracze podają po jednym skojarzeniu z hasłem.</li>
         <li>Głosowanie – każdy wskazuje tylu podejrzanych, ilu jest Impostorów.</li>
-        <li>Wyniki: topka = gracze z największą liczbą głosów (tyle miejsc ile impostorów).</li>
+        <li>Wyniki: topka = gracze z największą liczbą głosów.</li>
       </ol>
       <p><strong>🏆 Warunki wygranej:</strong></p>
       <ul>
@@ -33,7 +33,7 @@
         <li>🃏 Jester w topce → <strong>Jester wygrywa</strong></li>
         <li>Impostor poza topką → <strong>Impostor wygrywa</strong></li>
       </ul>
-      <p><strong>⚡ Tryb Chaosu</strong> – 20% szansy na rundę. Gdy aktywny, wszyscy gracze stają się Impostorami i nikt nie zna hasła – każdy dostaje jedynie kategorię jako wskazówkę. Tryb chaosu jest ujawniany dopiero w wynikach!</p>
+      <p><strong>⚡ Tryb Chaosu</strong> – 20% szansy na rundę. Gdy aktywny, wszyscy gracze stają się Impostorami i nikt nie zna hasła – tylko kategorię. Ujawniany dopiero w wynikach!</p>
     </div>
   </div>
 </div>
@@ -46,33 +46,51 @@
 
   <div class="title-block">
     <div class="spy-icon">
-      <!-- Pixel art tajny agent: szeroki kapelusz, ciemne okulary, garnitur -->
-      <svg width="80" height="96" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
-        <!-- Kapelusz – szeroki rond (amber) -->
-        <rect x="0" y="0" width="10" height="1" fill="#f4a261"/>
-        <!-- Kapelusz – główka -->
-        <rect x="2" y="1" width="6" height="2" fill="#f4a261"/>
-        <!-- Kapelusz – cień pod rondem -->
-        <rect x="0" y="3" width="10" height="1" fill="#c8783e"/>
-        <!-- Głowa – ciemna, zakryta (kaptur/cień) -->
-        <rect x="1" y="4" width="8" height="1" fill="#1e1e2e"/>
-        <!-- Ciemne okulary – pełna szerokość, brak białek -->
-        <rect x="0" y="5" width="10" height="2" fill="#060610"/>
-        <!-- Okulary – mostek między szkłami -->
-        <rect x="4" y="5" width="2" height="1" fill="#0f0f20"/>
-        <!-- Okulary – subtelny połysk lewego szkła -->
-        <rect x="1" y="5" width="2" height="1" fill="#111124"/>
-        <!-- Okulary – subtelny połysk prawego szkła -->
-        <rect x="7" y="5" width="2" height="1" fill="#111124"/>
-        <!-- Dolna część twarzy – ciemna -->
-        <rect x="1" y="7" width="8" height="1" fill="#1e1e2e"/>
-        <!-- Garnitur – ciemny -->
-        <rect x="0" y="8" width="10" height="4" fill="#13131e"/>
-        <!-- Klapy marynarki -->
-        <rect x="1" y="8" width="3" height="3" fill="#1c1c2e"/>
-        <rect x="6" y="8" width="3" height="3" fill="#1c1c2e"/>
+      <!--
+        Pixel art detektyw 12×18:
+        Szaro-niebieski kapelusz (fedora), ciemna twarz,
+        czarne okulary bez widocznych oczu, szaro-niebieski płaszcz,
+        amber krawat, widoczne nogi i buty.
+      -->
+      <svg width="80" height="120" viewBox="0 0 12 18" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+        <!-- Kapelusz – brim (szaro-niebieski) -->
+        <rect x="0" y="0" width="12" height="1" fill="#5a7282"/>
+        <!-- Kapelusz – korona -->
+        <rect x="2" y="1" width="8" height="3" fill="#5a7282"/>
+        <!-- Kapelusz – band (ciemniejszy) -->
+        <rect x="2" y="3" width="8" height="1" fill="#3d5a68"/>
+        <!-- Kapelusz – brim spód -->
+        <rect x="0" y="4" width="12" height="1" fill="#4a6575"/>
+        <!-- Twarz (ciemna) -->
+        <rect x="3" y="5" width="6" height="2" fill="#1a1a28"/>
+        <!-- Okulary – czarne, szerokie (brak białek) -->
+        <rect x="2" y="6" width="8" height="2" fill="#04040c"/>
+        <!-- Okulary – mostek -->
+        <rect x="5" y="6" width="2" height="1" fill="#080818"/>
+        <!-- Dolna część twarzy / broda -->
+        <rect x="3" y="8" width="6" height="1" fill="#1a1a28"/>
+        <!-- Szyja -->
+        <rect x="5" y="9" width="2" height="1" fill="#1a1a28"/>
+        <!-- Barki (szero-niebieski płaszcz) -->
+        <rect x="1" y="10" width="10" height="1" fill="#4a6272"/>
+        <!-- Płaszcz – ciało -->
+        <rect x="2" y="11" width="8" height="4" fill="#4a6272"/>
+        <!-- Klapa lewa (ciemniejsza) -->
+        <rect x="2" y="11" width="3" height="3" fill="#3a5262"/>
+        <!-- Klapa prawa (ciemniejsza) -->
+        <rect x="7" y="11" width="3" height="3" fill="#3a5262"/>
         <!-- Krawat (amber – styl Claude) -->
-        <rect x="4" y="8" width="2" height="4" fill="#f4a261"/>
+        <rect x="5" y="11" width="2" height="5" fill="#f4a261"/>
+        <!-- Pasek / talia -->
+        <rect x="2" y="14" width="8" height="1" fill="#3a5262"/>
+        <!-- Lewa noga -->
+        <rect x="3" y="15" width="2" height="2" fill="#4a6272"/>
+        <!-- Prawa noga -->
+        <rect x="7" y="15" width="2" height="2" fill="#4a6272"/>
+        <!-- Lewy but -->
+        <rect x="2" y="17" width="4" height="1" fill="#0d0d1a"/>
+        <!-- Prawy but -->
+        <rect x="6" y="17" width="4" height="1" fill="#0d0d1a"/>
       </svg>
     </div>
     <h1 class="game-title">IMPOSTOR</h1>
@@ -119,7 +137,7 @@
           <span class="option-icon rainbow">🃏</span>
           <span class="option-text">Tryb Jester</span>
         </span>
-        <span class="option-desc">Jeden gracz zostaje Jesterem – zna hasło, ale wygrywa jeśli zostanie wskazany jako Impostor.</span>
+        <span class="option-desc">Jeden gracz zostaje Jesterem – zna hasło, ale wygrywa jeśli zostanie wskazany jako Impostor w głosowaniu.</span>
       </span>
     </label>
 
@@ -130,7 +148,7 @@
           <span class="option-icon">⚡</span>
           <span class="option-text">Tryb Chaosu</span>
         </span>
-        <span class="option-desc">20% szansy że wszyscy gracze stają się Impostorami i nikt nie zna hasła – ujawniany dopiero w wynikach.</span>
+        <span class="option-desc">20% szansy na rundę – wszyscy stają się Impostorami i nikt nie zna hasła, ujawniany dopiero w wynikach.</span>
       </span>
     </label>
   </div>
@@ -165,10 +183,9 @@
 
 <!-- ===== GŁOSOWANIE ===== -->
 <section id="screen-voting" class="screen">
-  <div id="vote-tally-section">
-    <h3>Aktualne głosy</h3>
-    <div id="vote-tally-list"></div>
-  </div>
+  <!-- Tablica arcade – aktualizowana dynamicznie -->
+  <div id="vote-tally-section"></div>
+
   <div class="voter-block">
     <p class="muted-label">Teraz głosuje:</p>
     <h2 id="voter-name"></h2>
@@ -183,12 +200,9 @@
 
 <!-- ===== WYNIKI ===== -->
 <section id="screen-results" class="screen">
-  <h2 id="result-headline" class="result-headline"></h2>
   <p id="result-word-reveal" class="result-word-reveal"></p>
-  <div id="chaos-results-notice" class="chaos-results-notice hidden">
-    ⚡ TRYB CHAOSU BYŁ AKTYWNY – wszyscy gracze byli Impostorami!
-  </div>
-  <div id="result-table" class="result-table"></div>
+  <!-- Tablica arcade – z wynikami i informacją o wygranej -->
+  <div id="result-table"></div>
   <button class="btn-primary" onclick="handleNewGame()">Nowa gra</button>
 </section>
 
@@ -206,7 +220,6 @@ var setupState = {
   jesterMode: false,
   chaosMode: false
 };
-
 var cardState   = { currentIndex: 0, flipped: false, locked: false };
 var votingState = { order: [], currentIndex: 0, selected: [] };
 
@@ -216,7 +229,6 @@ var votingState = { order: [], currentIndex: 0, selected: [] };
 document.getElementById('input-player').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') addPlayer();
 });
-
 renderCategoryToggles();
 renderPlayerList();
 updateWordCount();
@@ -298,14 +310,11 @@ function clampImpostors() {
 }
 
 function syncOptionStyle(which) {
-  // Called from label onclick – wait one tick for checkbox to update
   setTimeout(function() {
-    var jesterChecked = document.getElementById('opt-jester').checked;
-    var chaosChecked  = document.getElementById('opt-chaos').checked;
-    var lblJ = document.getElementById('lbl-jester');
-    var lblC = document.getElementById('lbl-chaos');
-    lblJ.classList.toggle('opt-active-jester', jesterChecked);
-    lblC.classList.toggle('opt-active-chaos',  chaosChecked);
+    var jChecked = document.getElementById('opt-jester').checked;
+    var cChecked = document.getElementById('opt-chaos').checked;
+    document.getElementById('lbl-jester').classList.toggle('opt-active-jester', jChecked);
+    document.getElementById('lbl-chaos').classList.toggle('opt-active-chaos',  cChecked);
   }, 0);
 }
 
@@ -315,11 +324,10 @@ function handleStart() {
 
   var jesterMode = document.getElementById('opt-jester').checked;
   var chaosMode  = document.getElementById('opt-chaos').checked;
-
   var minPlayers = setupState.impostorCount + (jesterMode ? 2 : 1);
+
   if (setupState.playerNames.length < minPlayers) {
-    alert('Za mało graczy dla tych ustawień! Potrzeba co najmniej ' + minPlayers + '.');
-    return;
+    alert('Za mało graczy! Potrzeba co najmniej ' + minPlayers + '.'); return;
   }
 
   setupState.jesterMode = jesterMode;
@@ -369,7 +377,6 @@ function renderCurrentCard() {
 
 function buildCardBack(player) {
   var cat = Game.getState().category;
-
   if (player.role === 'impostor' || player.role === 'chaos') {
     return '<span class="role-badge role-impostor">IMPOSTOR</span>'
       + '<p class="card-word-blank">– – –</p>'
@@ -381,7 +388,6 @@ function buildCardBack(player) {
       + '<p class="card-hint-bottom"><em>Wskazówka: ' + escHtml(cat) + '</em></p>'
       + '<p class="card-jester-hint">Twoim zadaniem jest zostać wskazanym jako Impostor!</p>';
   }
-  // player
   return '<span class="role-badge role-player">GRACZ</span>'
     + '<p class="card-word">' + escHtml(player.word) + '</p>'
     + '<p class="card-hint-bottom"><em>Wskazówka: ' + escHtml(cat) + '</em></p>';
@@ -404,9 +410,8 @@ function showPassMessage() {
   var players = Game.getState().players;
   document.getElementById('card-wrap').classList.add('hidden');
   document.getElementById('pass-overlay').classList.remove('hidden');
-
   var nextIdx = cardState.currentIndex + 1;
-  var msgEl   = document.getElementById('pass-msg-text');
+  var msgEl = document.getElementById('pass-msg-text');
   if (nextIdx < players.length) {
     msgEl.innerHTML = 'Przekaż urządzenie graczowi:<br/><strong>' + escHtml(players[nextIdx].name) + '</strong>';
   } else {
@@ -422,6 +427,58 @@ function nextCard() {
   } else {
     renderCurrentCard();
   }
+}
+
+// ============================================================
+// ARCADE BOARD – uniwersalna tablica wyników
+// ============================================================
+function arcadeBar(count, max) {
+  if (!max || count === 0) return '░░░░░░░░';
+  var filled = Math.min(8, Math.round((count / max) * 8));
+  return '█'.repeat(filled) + '░'.repeat(8 - filled);
+}
+
+/**
+ * Renderuje tablicę w stylu arcade.
+ * @param {string} containerId  – id kontenera do wypełnienia
+ * @param {string} title        – nagłówek tablicy
+ * @param {Array}  rows         – [{name, votes, nameClass?, roleLbl?, inTopka?, isWinner?}]
+ * @param {string|null} winnerRow – opcjonalny napis zwycięzcy (null = brak)
+ * @param {string} winnerColor  – kolor tekstu zwycięzcy (lub 'rainbow')
+ */
+function renderArcadeBoard(containerId, title, rows, winnerRow, winnerColor) {
+  var maxVotes = Math.max(1, Math.max.apply(null, rows.map(function(r) { return r.votes || 0; })));
+
+  var html = '<div class="arcade-board">';
+  html += '<div class="arcade-board-title">' + escHtml(title) + '</div>';
+
+  if (winnerRow) {
+    if (winnerColor === 'rainbow') {
+      html += '<div class="arcade-winner-row rainbow">' + winnerRow + '</div>';
+    } else {
+      html += '<div class="arcade-winner-row" style="color:' + winnerColor + '">' + winnerRow + '</div>';
+    }
+  }
+
+  rows.forEach(function(row, i) {
+    var bar = arcadeBar(row.votes, maxVotes);
+    var cls = 'arcade-row' + (row.inTopka ? ' topka-row' : '');
+    var nameSpan = '<span class="arcade-name ' + (row.nameClass || '') + '">'
+      + escHtml(row.name)
+      + (row.roleLbl ? ' <small>(' + row.roleLbl + ')</small>' : '')
+      + (row.inTopka ? ' <span class="arcade-topka">★</span>' : '')
+      + '</span>';
+
+    html += '<div class="' + cls + '">'
+      + '<span class="arcade-rank">' + (i + 1) + '.</span>'
+      + nameSpan
+      + '<span class="arcade-bar">' + bar + '</span>'
+      + '<span class="arcade-score">' + (row.votes || 0) + '</span>'
+      + '</div>';
+  });
+
+  html += '</div>';
+  document.getElementById(containerId).innerHTML = html;
 }
 
 // ============================================================
@@ -459,7 +516,7 @@ function renderVotingRound() {
     container.appendChild(btn);
   });
 
-  renderTally();
+  refreshVoteTally();
 }
 
 function toggleCandidate(btn, name) {
@@ -474,7 +531,7 @@ function toggleCandidate(btn, name) {
   }
 }
 
-function renderTally() {
+function refreshVoteTally() {
   var state = Game.getState();
   var tally = {};
   state.players.forEach(function(p) { tally[p.name] = 0; });
@@ -482,18 +539,11 @@ function renderTally() {
     (targets || []).forEach(function(t) { tally[t] = (tally[t] || 0) + 1; });
   });
 
-  var maxCount = Math.max(1, Math.max.apply(null, Object.values(tally)));
-  var sorted = Object.entries(tally).sort(function(a, b) { return b[1] - a[1]; });
+  var rows = Object.entries(tally)
+    .sort(function(a, b) { return b[1] - a[1]; })
+    .map(function(e) { return { name: e[0], votes: e[1] }; });
 
-  document.getElementById('vote-tally-list').innerHTML = sorted.map(function(entry) {
-    var barWidth = Math.round((entry[1] / maxCount) * 80);
-    return '<div class="tally-row">'
-      + '<span class="tally-name">' + escHtml(entry[0]) + '</span>'
-      + '<span class="tally-bar-wrap">'
-      + '<span class="tally-bar" style="width:' + barWidth + 'px"></span>'
-      + '<span class="tally-count">' + entry[1] + '</span>'
-      + '</span></div>';
-  }).join('');
+  renderArcadeBoard('vote-tally-section', 'AKTUALNE GŁOSY', rows, null, null);
 }
 
 function confirmVote() {
@@ -525,55 +575,46 @@ function showResultsScreen() {
   var state  = Game.getState();
   showScreen('screen-results');
 
-  // Chaos notice
-  var chaosEl = document.getElementById('chaos-results-notice');
-  if (result.isChaos) chaosEl.classList.remove('hidden');
-  else chaosEl.classList.add('hidden');
-
-  // Headline
-  var headline;
-  if (result.isChaos) {
-    headline = '⚡ Tryb Chaosu!';
-  } else if (result.jesterWins && result.allImpostorsCaught) {
-    headline = '🃏 Jester i Gracze wygrywają!';
-  } else if (result.jesterWins) {
-    headline = '🃏 Jester wygrywa!';
-  } else if (!result.impostorsWin) {
-    headline = '🟢 Gracze wygrywają!';
-  } else {
-    headline = '🔴 Impostor wygrywa!';
-  }
-  document.getElementById('result-headline').textContent = headline;
   document.getElementById('result-word-reveal').textContent =
     'Hasło: ' + state.word + '  |  Kategoria: ' + state.category;
 
-  // Table – tally bars + role colors
-  var maxVotes = Math.max(1, Math.max.apply(null, result.sorted.map(function(p) { return p.votes; })));
-  var container = document.getElementById('result-table');
-  container.innerHTML = result.sorted.map(function(p) {
-    var inTopka = result.topkaNames.has(p.name);
-    var barWidth = Math.round((p.votes / maxVotes) * 100);
-    var rl = roleLabelShort(p.role);
-    var nameClass = 'role-text-' + p.role + (p.role === 'jester' ? ' rainbow' : '');
-    var topkaMark = inTopka ? ' <span class="topka-badge">★</span>' : '';
-    return '<div class="result-tally-row' + (inTopka ? ' in-topka' : '') + '">'
-      + '<span class="result-tally-name ' + nameClass + '">'
-      + escHtml(p.name) + ' <small>(' + rl + ')</small>' + topkaMark
-      + '</span>'
-      + '<span class="tally-bar-wrap">'
-      + '<span class="tally-bar" style="width:' + barWidth + 'px"></span>'
-      + '<span class="tally-count">' + p.votes + '</span>'
-      + '</span></div>';
-  }).join('');
+  // Determine winner text and color (in-table)
+  var winnerRow, winnerColor;
+  if (result.isChaos) {
+    winnerRow  = '⚡ TRYB CHAOSU – WSZYSCY IMPOSTORAMI ⚡';
+    winnerColor = '#ffd700';
+  } else if (result.jesterWins && result.allImpostorsCaught) {
+    winnerRow  = '🃏 JESTER + GRACZE WYGRYWAJĄ';
+    winnerColor = 'rainbow';
+  } else if (result.jesterWins) {
+    winnerRow  = '🃏 JESTER WYGRYWA';
+    winnerColor = 'rainbow';
+  } else if (!result.impostorsWin) {
+    winnerRow  = '🟢 GRACZE WYGRYWAJĄ';
+    winnerColor = '#2d9d5e';
+  } else {
+    winnerRow  = '🔴 IMPOSTOR WYGRYWA';
+    winnerColor = '#e63946';
+  }
+
+  var rows = result.sorted.map(function(p) {
+    return {
+      name:      p.name,
+      votes:     p.votes,
+      nameClass: 'role-text-' + p.role + (p.role === 'jester' ? ' rainbow' : ''),
+      roleLbl:   roleLabelShort(p.role),
+      inTopka:   result.topkaNames.has(p.name)
+    };
+  });
+
+  renderArcadeBoard('result-table', 'WYNIKI KOŃCOWE', rows, winnerRow, winnerColor);
 }
 
 function handleNewGame() {
   document.getElementById('opt-jester').checked = setupState.jesterMode;
   document.getElementById('opt-chaos').checked  = setupState.chaosMode;
-  // Sync option label styles
   document.getElementById('lbl-jester').classList.toggle('opt-active-jester', setupState.jesterMode);
   document.getElementById('lbl-chaos').classList.toggle('opt-active-chaos',   setupState.chaosMode);
-  // Sync category toggles
   document.querySelectorAll('.cat-toggle').forEach(function(btn) {
     if (setupState.enabledCategories.has(btn.dataset.cat)) btn.classList.add('active');
     else btn.classList.remove('active');
