@@ -17,23 +17,23 @@
       <p><strong>🎮 Cel gry:</strong> Gracze próbują wykryć Impostora, a Impostor stara się ukryć.</p>
       <p>
         <strong class="role-text-player">🟢 Gracz</strong> – zna kategorię i hasło, podaje skojarzenia.<br/>
-        <strong class="role-text-impostor">🔴 Impostor</strong> – zna tylko kategorię, udaje że zna hasło.<br/>
-        <strong class="rainbow">🌈 Jester</strong> – zna hasło, ale chce zostać wskazany jako Impostor!
+        <strong class="role-text-impostor">🔴 Impostor</strong> – zna tylko kategorię jako wskazówkę, udaje że zna hasło.<br/>
+        <strong class="rainbow">🃏 Jester</strong> – zna hasło, ale wygrywa gdy zostanie wskazany przez głosowanie!
       </p>
       <p><strong>📋 Przebieg rundy:</strong></p>
       <ol>
         <li>Każdy gracz po kolei sprawdza swoją kartę <em>prywatnie</em>.</li>
         <li>Gracze podają po jednym skojarzeniu z hasłem.</li>
         <li>Głosowanie – każdy wskazuje tylu podejrzanych, ilu jest Impostorów.</li>
-        <li>Wyniki: topka = gracze z największą liczbą głosów.</li>
+        <li>Wyniki: topka = gracze z największą liczbą głosów (tyle miejsc ile impostorów).</li>
       </ol>
       <p><strong>🏆 Warunki wygranej:</strong></p>
       <ul>
         <li>Wszyscy Impostorzy w topce → <strong>Gracze wygrywają</strong></li>
-        <li>Jester w topce → <strong>Jester wygrywa</strong></li>
+        <li>🃏 Jester w topce → <strong>Jester wygrywa</strong></li>
         <li>Impostor poza topką → <strong>Impostor wygrywa</strong></li>
       </ul>
-      <p><strong>⚡ Tryb Chaosu</strong> – 20% szansy, że każdy gracz dostanie inne losowe hasło z kategorii!</p>
+      <p><strong>⚡ Tryb Chaosu</strong> – 20% szansy na rundę. Gdy aktywny, wszyscy gracze stają się Impostorami i nikt nie zna hasła – każdy dostaje jedynie kategorię jako wskazówkę. Tryb chaosu jest ujawniany dopiero w wynikach!</p>
     </div>
   </div>
 </div>
@@ -46,33 +46,33 @@
 
   <div class="title-block">
     <div class="spy-icon">
-      <!-- Pixel art spy (10×12 grid, rendered 80×96px) -->
+      <!-- Pixel art tajny agent: szeroki kapelusz, ciemne okulary, garnitur -->
       <svg width="80" height="96" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
-        <!-- Hat brim -->
-        <rect x="1" y="0" width="8" height="1" fill="#f4a261"/>
-        <!-- Hat body -->
+        <!-- Kapelusz – szeroki rond (amber) -->
+        <rect x="0" y="0" width="10" height="1" fill="#f4a261"/>
+        <!-- Kapelusz – główka -->
         <rect x="2" y="1" width="6" height="2" fill="#f4a261"/>
-        <!-- Head -->
-        <rect x="1" y="3" width="8" height="5" fill="#fcd5b5"/>
-        <!-- Eye mask left -->
-        <rect x="0" y="4" width="4" height="2" fill="#1a1a2e"/>
-        <!-- Eye mask right -->
-        <rect x="6" y="4" width="4" height="2" fill="#1a1a2e"/>
-        <!-- Eye whites left -->
-        <rect x="1" y="4" width="2" height="1" fill="#ffffff"/>
-        <!-- Eye whites right -->
-        <rect x="7" y="4" width="2" height="1" fill="#ffffff"/>
-        <!-- Pupils left -->
-        <rect x="2" y="4" width="1" height="1" fill="#1a1a2e"/>
-        <!-- Pupils right -->
-        <rect x="8" y="4" width="1" height="1" fill="#1a1a2e"/>
-        <!-- Mouth -->
-        <rect x="3" y="7" width="4" height="1" fill="#c0392b"/>
-        <!-- Suit body -->
-        <rect x="1" y="8" width="8" height="4" fill="#1a1a2e"/>
-        <!-- Tie (amber like Claude) -->
-        <rect x="4" y="8" width="2" height="3" fill="#f4a261"/>
-        <rect x="4" y="11" width="2" height="1" fill="#f4a261"/>
+        <!-- Kapelusz – cień pod rondem -->
+        <rect x="0" y="3" width="10" height="1" fill="#c8783e"/>
+        <!-- Głowa – ciemna, zakryta (kaptur/cień) -->
+        <rect x="1" y="4" width="8" height="1" fill="#1e1e2e"/>
+        <!-- Ciemne okulary – pełna szerokość, brak białek -->
+        <rect x="0" y="5" width="10" height="2" fill="#060610"/>
+        <!-- Okulary – mostek między szkłami -->
+        <rect x="4" y="5" width="2" height="1" fill="#0f0f20"/>
+        <!-- Okulary – subtelny połysk lewego szkła -->
+        <rect x="1" y="5" width="2" height="1" fill="#111124"/>
+        <!-- Okulary – subtelny połysk prawego szkła -->
+        <rect x="7" y="5" width="2" height="1" fill="#111124"/>
+        <!-- Dolna część twarzy – ciemna -->
+        <rect x="1" y="7" width="8" height="1" fill="#1e1e2e"/>
+        <!-- Garnitur – ciemny -->
+        <rect x="0" y="8" width="10" height="4" fill="#13131e"/>
+        <!-- Klapy marynarki -->
+        <rect x="1" y="8" width="3" height="3" fill="#1c1c2e"/>
+        <rect x="6" y="8" width="3" height="3" fill="#1c1c2e"/>
+        <!-- Krawat (amber – styl Claude) -->
+        <rect x="4" y="8" width="2" height="4" fill="#f4a261"/>
       </svg>
     </div>
     <h1 class="game-title">IMPOSTOR</h1>
@@ -101,25 +101,36 @@
 
   <!-- Kategorie -->
   <div class="section">
-    <h3 class="section-title">Kategorie</h3>
+    <h3 class="section-title">
+      Kategorie
+      <span id="words-count-badge" class="badge words-badge">0 haseł</span>
+    </h3>
     <div id="category-toggles" class="category-grid"></div>
   </div>
 
   <!-- Opcje dodatkowe -->
   <div class="section">
     <h3 class="section-title">Opcje dodatkowe</h3>
-    <label class="option-toggle">
+
+    <label class="option-toggle" id="lbl-jester" onclick="syncOptionStyle('jester')">
       <input type="checkbox" id="opt-jester" />
       <span class="option-inner">
-        <span class="option-icon rainbow">🃏</span>
-        <span class="option-text">Tryb Jester</span>
+        <span class="option-top">
+          <span class="option-icon rainbow">🃏</span>
+          <span class="option-text">Tryb Jester</span>
+        </span>
+        <span class="option-desc">Jeden gracz zostaje Jesterem – zna hasło, ale wygrywa jeśli zostanie wskazany jako Impostor.</span>
       </span>
     </label>
-    <label class="option-toggle">
+
+    <label class="option-toggle" id="lbl-chaos" onclick="syncOptionStyle('chaos')">
       <input type="checkbox" id="opt-chaos" />
       <span class="option-inner">
-        <span class="option-icon">⚡</span>
-        <span class="option-text">Tryb Chaosu <small>(20% szansy na rundę)</small></span>
+        <span class="option-top">
+          <span class="option-icon">⚡</span>
+          <span class="option-text">Tryb Chaosu</span>
+        </span>
+        <span class="option-desc">20% szansy że wszyscy gracze stają się Impostorami i nikt nie zna hasła – ujawniany dopiero w wynikach.</span>
       </span>
     </label>
   </div>
@@ -147,8 +158,7 @@
 <section id="screen-game" class="screen">
   <div class="game2-content">
     <h2>Rozgrywka trwa!</h2>
-    <p id="chaos-notice" class="chaos-notice hidden">⚡ TRYB CHAOSU AKTYWNY ⚡<br/><small>Każdy gracz mógł dostać inne hasło!</small></p>
-    <p class="game2-hint">Oddaj telefon właścicielowi.<br/>Każdy podaje po jednym skojarzeniu z hasłem.</p>
+    <p class="game2-hint">Oddaj telefon właścicielowi.<br/>Każdy podaje po jednym skojarzeniu.</p>
   </div>
   <button class="btn-primary" onclick="startVotingPhase()">Etap głosowania ›</button>
 </section>
@@ -175,6 +185,9 @@
 <section id="screen-results" class="screen">
   <h2 id="result-headline" class="result-headline"></h2>
   <p id="result-word-reveal" class="result-word-reveal"></p>
+  <div id="chaos-results-notice" class="chaos-results-notice hidden">
+    ⚡ TRYB CHAOSU BYŁ AKTYWNY – wszyscy gracze byli Impostorami!
+  </div>
   <div id="result-table" class="result-table"></div>
   <button class="btn-primary" onclick="handleNewGame()">Nowa gra</button>
 </section>
@@ -194,7 +207,7 @@ var setupState = {
   chaosMode: false
 };
 
-var cardState = { currentIndex: 0, flipped: false, locked: false };
+var cardState   = { currentIndex: 0, flipped: false, locked: false };
 var votingState = { order: [], currentIndex: 0, selected: [] };
 
 // ============================================================
@@ -206,6 +219,7 @@ document.getElementById('input-player').addEventListener('keydown', function(e) 
 
 renderCategoryToggles();
 renderPlayerList();
+updateWordCount();
 
 // ============================================================
 // SETUP
@@ -231,6 +245,15 @@ function toggleCategory(cat, btn) {
     setupState.enabledCategories.add(cat);
     btn.classList.add('active');
   }
+  updateWordCount();
+}
+
+function updateWordCount() {
+  var total = 0;
+  setupState.enabledCategories.forEach(function(cat) {
+    if (DATABASE[cat]) total += DATABASE[cat].length;
+  });
+  document.getElementById('words-count-badge').textContent = total + ' haseł';
 }
 
 function addPlayer() {
@@ -274,6 +297,18 @@ function clampImpostors() {
   document.getElementById('impostor-display').textContent = setupState.impostorCount;
 }
 
+function syncOptionStyle(which) {
+  // Called from label onclick – wait one tick for checkbox to update
+  setTimeout(function() {
+    var jesterChecked = document.getElementById('opt-jester').checked;
+    var chaosChecked  = document.getElementById('opt-chaos').checked;
+    var lblJ = document.getElementById('lbl-jester');
+    var lblC = document.getElementById('lbl-chaos');
+    lblJ.classList.toggle('opt-active-jester', jesterChecked);
+    lblC.classList.toggle('opt-active-chaos',  chaosChecked);
+  }, 0);
+}
+
 function handleStart() {
   if (setupState.playerNames.length < 3) { alert('Potrzeba co najmniej 3 graczy!'); return; }
   if (setupState.enabledCategories.size === 0) { alert('Wybierz co najmniej jedną kategorię!'); return; }
@@ -308,7 +343,7 @@ function handleStart() {
 function startCardReveal() {
   cardState.currentIndex = 0;
   cardState.flipped = false;
-  cardState.locked = false;
+  cardState.locked  = false;
   showScreen('screen-cards');
   renderCurrentCard();
 }
@@ -325,34 +360,31 @@ function renderCurrentCard() {
   cardState.flipped = false;
   cardState.locked  = false;
 
-  // Front
   document.getElementById('card-front').innerHTML =
     '<p class="card-tap-hint">Dotknij, aby zobaczyć rolę</p>'
     + '<span class="card-player-name">' + escHtml(player.name) + '</span>';
 
-  // Back
   document.getElementById('card-back').innerHTML = buildCardBack(player);
 }
 
 function buildCardBack(player) {
   var cat = Game.getState().category;
-  if (player.role === 'impostor') {
+
+  if (player.role === 'impostor' || player.role === 'chaos') {
     return '<span class="role-badge role-impostor">IMPOSTOR</span>'
-      + '<p class="card-hint-label">Wskazówka – kategoria:</p>'
-      + '<p class="card-category">' + escHtml(cat) + '</p>';
+      + '<p class="card-word-blank">– – –</p>'
+      + '<p class="card-hint-bottom"><em>Wskazówka: ' + escHtml(cat) + '</em></p>';
   }
   if (player.role === 'jester') {
     return '<span class="role-badge role-jester rainbow">JESTER</span>'
-      + '<p class="card-hint-label">Wskazówka – kategoria:</p>'
-      + '<p class="card-category">' + escHtml(cat) + '</p>'
       + '<p class="card-word">' + escHtml(player.word) + '</p>'
+      + '<p class="card-hint-bottom"><em>Wskazówka: ' + escHtml(cat) + '</em></p>'
       + '<p class="card-jester-hint">Twoim zadaniem jest zostać wskazanym jako Impostor!</p>';
   }
   // player
   return '<span class="role-badge role-player">GRACZ</span>'
-    + '<p class="card-hint-label">Wskazówka – kategoria:</p>'
-    + '<p class="card-category">' + escHtml(cat) + '</p>'
-    + '<p class="card-word">' + escHtml(player.word) + '</p>';
+    + '<p class="card-word">' + escHtml(player.word) + '</p>'
+    + '<p class="card-hint-bottom"><em>Wskazówka: ' + escHtml(cat) + '</em></p>';
 }
 
 function handleCardClick() {
@@ -386,11 +418,7 @@ function nextCard() {
   var players = Game.getState().players;
   cardState.currentIndex++;
   if (cardState.currentIndex >= players.length) {
-    // All done → game II screen
     showScreen('screen-game');
-    var chaosEl = document.getElementById('chaos-notice');
-    if (Game.getState().chaosActive) chaosEl.classList.remove('hidden');
-    else chaosEl.classList.add('hidden');
   } else {
     renderCurrentCard();
   }
@@ -459,7 +487,8 @@ function renderTally() {
 
   document.getElementById('vote-tally-list').innerHTML = sorted.map(function(entry) {
     var barWidth = Math.round((entry[1] / maxCount) * 80);
-    return '<div class="tally-row"><span>' + escHtml(entry[0]) + '</span>'
+    return '<div class="tally-row">'
+      + '<span class="tally-name">' + escHtml(entry[0]) + '</span>'
       + '<span class="tally-bar-wrap">'
       + '<span class="tally-bar" style="width:' + barWidth + 'px"></span>'
       + '<span class="tally-count">' + entry[1] + '</span>'
@@ -496,12 +525,19 @@ function showResultsScreen() {
   var state  = Game.getState();
   showScreen('screen-results');
 
+  // Chaos notice
+  var chaosEl = document.getElementById('chaos-results-notice');
+  if (result.isChaos) chaosEl.classList.remove('hidden');
+  else chaosEl.classList.add('hidden');
+
   // Headline
   var headline;
-  if (result.jesterWins && result.allImpostorsCaught) {
-    headline = '🌈 Jester i Gracze wygrywają!';
+  if (result.isChaos) {
+    headline = '⚡ Tryb Chaosu!';
+  } else if (result.jesterWins && result.allImpostorsCaught) {
+    headline = '🃏 Jester i Gracze wygrywają!';
   } else if (result.jesterWins) {
-    headline = '🌈 Jester wygrywa!';
+    headline = '🃏 Jester wygrywa!';
   } else if (!result.impostorsWin) {
     headline = '🟢 Gracze wygrywają!';
   } else {
@@ -511,37 +547,38 @@ function showResultsScreen() {
   document.getElementById('result-word-reveal').textContent =
     'Hasło: ' + state.word + '  |  Kategoria: ' + state.category;
 
-  // Table
-  var topSize = state.settings.impostorCount;
+  // Table – tally bars + role colors
+  var maxVotes = Math.max(1, Math.max.apply(null, result.sorted.map(function(p) { return p.votes; })));
   var container = document.getElementById('result-table');
-  container.innerHTML = result.sorted.map(function(p, i) {
+  container.innerHTML = result.sorted.map(function(p) {
     var inTopka = result.topkaNames.has(p.name);
-    var topkaStr = inTopka ? '<span class="topka-badge">★ TOPKA</span>' : '';
-    var roleStr = roleLabel(p.role);
-    var votes = p.votes;
-    var votesLabel = votes + ' ' + (votes === 1 ? 'głos' : votes < 5 ? 'głosy' : 'głosów');
-    var nameClass = 'result-name role-text-' + p.role + (p.role === 'jester' ? ' rainbow' : '');
-    return '<div class="result-row' + (inTopka ? ' in-topka' : '') + '">'
-      + '<span class="result-rank">' + (i + 1) + '.</span>'
-      + '<span class="' + nameClass + '">' + escHtml(p.name)
-      + '<small class="role-bracket">(' + roleStr + ')</small></span>'
-      + '<span class="result-votes">' + votesLabel + '</span>'
-      + topkaStr + '</div>';
+    var barWidth = Math.round((p.votes / maxVotes) * 100);
+    var rl = roleLabelShort(p.role);
+    var nameClass = 'role-text-' + p.role + (p.role === 'jester' ? ' rainbow' : '');
+    var topkaMark = inTopka ? ' <span class="topka-badge">★</span>' : '';
+    return '<div class="result-tally-row' + (inTopka ? ' in-topka' : '') + '">'
+      + '<span class="result-tally-name ' + nameClass + '">'
+      + escHtml(p.name) + ' <small>(' + rl + ')</small>' + topkaMark
+      + '</span>'
+      + '<span class="tally-bar-wrap">'
+      + '<span class="tally-bar" style="width:' + barWidth + 'px"></span>'
+      + '<span class="tally-count">' + p.votes + '</span>'
+      + '</span></div>';
   }).join('');
 }
 
 function handleNewGame() {
-  // Keep all settings – just go back to setup with preserved state
   document.getElementById('opt-jester').checked = setupState.jesterMode;
   document.getElementById('opt-chaos').checked  = setupState.chaosMode;
-  // Re-sync category toggles with current enabledCategories
+  // Sync option label styles
+  document.getElementById('lbl-jester').classList.toggle('opt-active-jester', setupState.jesterMode);
+  document.getElementById('lbl-chaos').classList.toggle('opt-active-chaos',   setupState.chaosMode);
+  // Sync category toggles
   document.querySelectorAll('.cat-toggle').forEach(function(btn) {
-    if (setupState.enabledCategories.has(btn.dataset.cat)) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
+    if (setupState.enabledCategories.has(btn.dataset.cat)) btn.classList.add('active');
+    else btn.classList.remove('active');
   });
+  updateWordCount();
   renderPlayerList();
   clampImpostors();
   showScreen('screen-setup');
@@ -550,6 +587,10 @@ function handleNewGame() {
 // ============================================================
 // HELPERS
 // ============================================================
+function roleLabelShort(role) {
+  return { impostor: 'Impostor', jester: 'Jester', player: 'Gracz', chaos: 'Impostor' }[role] || role;
+}
+
 function escHtml(str) {
   return String(str)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;')

@@ -3,8 +3,8 @@ const Game = (() => {
     players: [],      // [{ name, role, word, revealed }]
     category: '',
     word: '',
-    phase: 'setup',   // setup | cards | game | voting | results
-    votes: {},        // { voterName: [targetName, ...] }
+    phase: 'setup',
+    votes: {},
     roundNumber: 0,
     scores: {},
     chaosActive: false,
@@ -31,29 +31,34 @@ const Game = (() => {
     const mainWord = words[Math.floor(Math.random() * words.length)];
     const chaosActive = chaosMode && Math.random() < 0.2;
 
-    // Shuffle indices for role assignment
-    const indices = playerNames.map((_, i) => i);
-    for (let i = indices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
-    }
-
-    const impostorSet = new Set(indices.slice(0, impostorCount));
-    const jesterIdx = (jesterMode && indices.length > impostorCount) ? indices[impostorCount] : -1;
-
-    state.players = playerNames.map((name, i) => {
-      let role, word;
-      if (impostorSet.has(i)) {
-        role = 'impostor'; word = null;
-      } else if (i === jesterIdx) {
-        role = 'jester';
-        word = chaosActive ? words[Math.floor(Math.random() * words.length)] : mainWord;
-      } else {
-        role = 'player';
-        word = chaosActive ? words[Math.floor(Math.random() * words.length)] : mainWord;
+    if (chaosActive) {
+      // TRYB CHAOSU: wszyscy są impostorami, nikt nie zna hasła
+      state.players = playerNames.map(name => ({
+        name, role: 'chaos', word: null, revealed: false
+      }));
+    } else {
+      // Normalne przypisanie ról
+      const indices = playerNames.map((_, i) => i);
+      for (let i = indices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]];
       }
-      return { name, role, word, revealed: false };
-    });
+
+      const impostorSet = new Set(indices.slice(0, impostorCount));
+      const jesterIdx = (jesterMode && indices.length > impostorCount) ? indices[impostorCount] : -1;
+
+      state.players = playerNames.map((name, i) => {
+        let role, word;
+        if (impostorSet.has(i)) {
+          role = 'impostor'; word = null;
+        } else if (i === jesterIdx) {
+          role = 'jester'; word = mainWord;
+        } else {
+          role = 'player'; word = mainWord;
+        }
+        return { name, role, word, revealed: false };
+      });
+    }
 
     state.category = category;
     state.word = mainWord;
@@ -80,6 +85,12 @@ const Game = (() => {
       .map(p => ({ ...p, votes: tally[p.name] || 0 }))
       .sort((a, b) => b.votes - a.votes);
 
+    // W trybie chaosu nie ma warunków wygranej
+    if (state.chaosActive) {
+      state.phase = 'results';
+      return { sorted, topkaNames: new Set(), allImpostorsCaught: false, jesterWins: false, impostorsWin: false, isChaos: true };
+    }
+
     const topSize = state.settings.impostorCount;
     const topThreshold = sorted[topSize - 1]?.votes ?? 0;
     const topka = sorted.filter(p => p.votes >= topThreshold && p.votes > 0);
@@ -92,7 +103,6 @@ const Game = (() => {
     const jesterWins = !!(jester && topkaNames.has(jester.name));
     const impostorsWin = !allImpostorsCaught;
 
-    // Scoring
     if (jesterWins) state.scores[jester.name] = (state.scores[jester.name] || 0) + 3;
     if (!impostorsWin) {
       state.players.filter(p => p.role === 'player').forEach(p => {
@@ -103,7 +113,7 @@ const Game = (() => {
     }
 
     state.phase = 'results';
-    return { sorted, topkaNames, allImpostorsCaught, jesterWins, impostorsWin };
+    return { sorted, topkaNames, allImpostorsCaught, jesterWins, impostorsWin, isChaos: false };
   }
 
   return { getState, updateSettings, startRound, castVote, resolveResults };
