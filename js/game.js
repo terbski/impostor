@@ -1,94 +1,110 @@
 const Game = (() => {
   let state = {
-    players: [],       // [{ name, isImpostor, word }]
-    category: "",
-    word: "",
-    impostorIndex: -1,
-    phase: "setup",    // setup | reveal | discussion | voting | results
-    votes: {},
+    players: [],      // [{ name, role, word, revealed }]
+    category: '',
+    word: '',
+    phase: 'setup',   // setup | cards | game | voting | results
+    votes: {},        // { voterName: [targetName, ...] }
     roundNumber: 0,
-    scores: {}
+    scores: {},
+    chaosActive: false,
+    settings: {
+      playerNames: [],
+      impostorCount: 1,
+      enabledCategories: [],
+      jesterMode: false,
+      chaosMode: false
+    }
   };
 
-  function getState() {
-    return state;
+  function getState() { return state; }
+
+  function updateSettings(s) {
+    Object.assign(state.settings, s);
   }
 
-  function startGame(playerNames) {
-    if (playerNames.length < 3) {
-      throw new Error("Potrzeba co najmniej 3 graczy.");
+  function startRound() {
+    const { playerNames, impostorCount, enabledCategories, jesterMode, chaosMode } = state.settings;
+
+    const category = enabledCategories[Math.floor(Math.random() * enabledCategories.length)];
+    const words = DATABASE[category];
+    const mainWord = words[Math.floor(Math.random() * words.length)];
+    const chaosActive = chaosMode && Math.random() < 0.2;
+
+    // Shuffle indices for role assignment
+    const indices = playerNames.map((_, i) => i);
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
     }
 
-    const categories = Object.keys(DATABASE);
-    const category = categories[Math.floor(Math.random() * categories.length)];
-    const words = DATABASE[category];
-    const word = words[Math.floor(Math.random() * words.length)];
+    const impostorSet = new Set(indices.slice(0, impostorCount));
+    const jesterIdx = (jesterMode && indices.length > impostorCount) ? indices[impostorCount] : -1;
 
-    const impostorIndex = Math.floor(Math.random() * playerNames.length);
-
-    state.players = playerNames.map((name, i) => ({
-      name,
-      isImpostor: i === impostorIndex,
-      word: i === impostorIndex ? null : word,
-      revealed: false
-    }));
+    state.players = playerNames.map((name, i) => {
+      let role, word;
+      if (impostorSet.has(i)) {
+        role = 'impostor'; word = null;
+      } else if (i === jesterIdx) {
+        role = 'jester';
+        word = chaosActive ? words[Math.floor(Math.random() * words.length)] : mainWord;
+      } else {
+        role = 'player';
+        word = chaosActive ? words[Math.floor(Math.random() * words.length)] : mainWord;
+      }
+      return { name, role, word, revealed: false };
+    });
 
     state.category = category;
-    state.word = word;
-    state.impostorIndex = impostorIndex;
-    state.phase = "reveal";
+    state.word = mainWord;
+    state.chaosActive = chaosActive;
+    state.phase = 'cards';
     state.votes = {};
-    state.roundNumber += 1;
+    state.roundNumber++;
 
-    playerNames.forEach(name => {
-      if (!state.scores[name]) state.scores[name] = 0;
-    });
+    playerNames.forEach(n => { if (!state.scores[n]) state.scores[n] = 0; });
   }
 
-  function revealPlayer(index) {
-    state.players[index].revealed = true;
-    const allRevealed = state.players.every(p => p.revealed);
-    if (allRevealed) state.phase = "discussion";
+  function castVote(voter, targets) {
+    state.votes[voter] = targets;
   }
 
-  function startVoting() {
-    state.phase = "voting";
-  }
-
-  function castVote(voterName, targetName) {
-    state.votes[voterName] = targetName;
-  }
-
-  function resolveVoting() {
+  function resolveResults() {
     const tally = {};
-    Object.values(state.votes).forEach(target => {
-      tally[target] = (tally[target] || 0) + 1;
+    state.players.forEach(p => { tally[p.name] = 0; });
+    Object.values(state.votes).forEach(targets => {
+      (targets || []).forEach(t => { tally[t] = (tally[t] || 0) + 1; });
     });
 
-    const maxVotes = Math.max(...Object.values(tally));
-    const eliminated = Object.keys(tally).filter(k => tally[k] === maxVotes);
-    const impostorName = state.players[state.impostorIndex].name;
+    const sorted = [...state.players]
+      .map(p => ({ ...p, votes: tally[p.name] || 0 }))
+      .sort((a, b) => b.votes - a.votes);
 
-    let result;
-    if (eliminated.length === 1 && eliminated[0] === impostorName) {
-      result = { winner: "gracze", eliminated: eliminated[0], tally };
-      state.scores[impostorName] = (state.scores[impostorName] || 0);
+    const topSize = state.settings.impostorCount;
+    const topThreshold = sorted[topSize - 1]?.votes ?? 0;
+    const topka = sorted.filter(p => p.votes >= topThreshold && p.votes > 0);
+    const topkaNames = new Set(topka.map(p => p.name));
+
+    const impostors = state.players.filter(p => p.role === 'impostor');
+    const jester = state.players.find(p => p.role === 'jester');
+
+    const allImpostorsCaught = impostors.every(p => topkaNames.has(p.name));
+    const jesterWins = !!(jester && topkaNames.has(jester.name));
+    const impostorsWin = !allImpostorsCaught;
+
+    // Scoring
+    if (jesterWins) state.scores[jester.name] = (state.scores[jester.name] || 0) + 3;
+    if (!impostorsWin) {
+      state.players.filter(p => p.role === 'player').forEach(p => {
+        state.scores[p.name] = (state.scores[p.name] || 0) + 2;
+      });
     } else {
-      result = { winner: "impostor", eliminated: eliminated, tally };
-      state.scores[impostorName] = (state.scores[impostorName] || 0) + 2;
+      impostors.forEach(p => { state.scores[p.name] = (state.scores[p.name] || 0) + 3; });
     }
 
-    state.phase = "results";
-    return result;
+    state.phase = 'results';
+    return { sorted, topkaNames, allImpostorsCaught, jesterWins, impostorsWin };
   }
 
-  function resetRound() {
-    state.phase = "setup";
-    state.players = [];
-    state.category = "";
-    state.word = "";
-    state.votes = {};
-  }
-
-  return { getState, startGame, revealPlayer, startVoting, castVote, resolveVoting, resetRound };
+  return { getState, updateSettings, startRound, castVote, resolveResults };
 })();
