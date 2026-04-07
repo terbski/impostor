@@ -109,10 +109,10 @@ input:focus { border-color: var(--amber); }
 .option-toggle.opt-active-jester { animation: rainbow-bg 2s linear infinite; }
 .option-toggle.opt-active-jester .option-desc { color: rgba(255,255,255,.7); }
 
-/* Chaos active – czarne tło */
-.option-toggle.opt-active-chaos { background: #050508; box-shadow: 0 0 0 2px #1a1a1a; }
-.option-toggle.opt-active-chaos .option-text { color: #333; }
-.option-toggle.opt-active-chaos .option-desc { color: #1e1e1e; }
+/* Chaos active – żółte tło */
+.option-toggle.opt-active-chaos { background: rgba(255,215,0,.15); box-shadow: 0 0 0 2px #ffd700; }
+.option-toggle.opt-active-chaos .option-text { color: #ffd700; }
+.option-toggle.opt-active-chaos .option-desc { color: rgba(255,215,0,.6); }
 
 /* ===== FLIP CARD ===== */
 .card-wrap { perspective: 1000px; padding: 20px 0; }
@@ -128,7 +128,7 @@ input:focus { border-color: var(--amber); }
 .role-badge.role-impostor { color: var(--accent); background: rgba(230,57,70,.15); }
 .role-badge.role-player   { color: var(--green);  background: rgba(45,157,94,.15); }
 .role-badge.role-jester   { background: rgba(255,255,255,.05); }
-.role-badge.role-chaos    { color: var(--accent); background: rgba(230,57,70,.15); }
+.role-badge.role-chaos    { color: #ffd700; background: rgba(255,215,0,.15); }
 .card-word { font-size: 2.8rem; font-weight: 900; color: var(--text); line-height: 1.1; margin: auto 0; }
 .card-word-blank { font-size: 2rem; color: var(--surface3); letter-spacing: 8px; margin: auto 0; }
 .card-hint-bottom { font-size: 0.85rem; font-style: italic; color: var(--muted); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--surface3); width: 100%; text-align: center; }
@@ -147,14 +147,14 @@ input:focus { border-color: var(--amber); }
 /* ===== ARCADE BOARD (universal) ===== */
 .arcade-board {
   background: #000008;
-  border: 2px solid #ffd700;
+  border: 2px solid var(--accent);
   border-radius: 4px;
   overflow: hidden;
   font-family: 'Courier New', Courier, monospace;
 }
 .arcade-board-title {
-  background: #ffd700;
-  color: #000;
+  background: var(--accent);
+  color: #fff;
   text-align: center;
   font-family: 'Courier New', Courier, monospace;
   font-weight: 900;
@@ -183,7 +183,7 @@ input:focus { border-color: var(--amber); }
   font-family: 'Courier New', Courier, monospace;
 }
 .arcade-row:last-child { border-bottom: none; }
-.arcade-row.topka-row { background: rgba(255,215,0,.05); }
+.arcade-row.topka-row { background: rgba(230,57,70,.07); }
 .arcade-rank { color: #444; min-width: 20px; font-size: 0.75rem; }
 .arcade-name { flex: 1; color: #00cc66; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
 .arcade-name small { color: #333; font-size: 0.65rem; font-family: 'Courier New', Courier, monospace; }
@@ -192,7 +192,8 @@ input:focus { border-color: var(--amber); }
 .arcade-topka { color: #ffd700; font-size: 0.75rem; }
 
 /* Role colors in arcade context */
-.role-text-impostor, .role-text-chaos { color: #ff3344 !important; }
+.role-text-impostor { color: #ff3344 !important; }
+.role-text-chaos    { color: #ffd700 !important; }
 .role-text-player   { color: #00cc66 !important; }
 .role-text-jester   { /* set by rainbow */ }
 

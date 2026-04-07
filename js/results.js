@@ -26,7 +26,10 @@ function showResultsScreen() {
     winnerRow   = '🟢 GRACZE WYGRYWAJĄ';
     winnerColor = '#2d9d5e';
   } else {
-    winnerRow   = '🔴 IMPOSTOR WYGRYWA';
+    var escaped = result.sorted
+      .filter(function(p) { return p.role === 'impostor' && !result.topkaNames.has(p.name); })
+      .map(function(p) { return p.name; });
+    winnerRow   = '🔴 IMPOSTOR WYGRYWA: ' + escaped.join(', ');
     winnerColor = '#e63946';
   }
 
